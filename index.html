@@ -5,19 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ESCRIBA HUB - Extrator de Texto (OCR)</title>
     
-    <!-- CSS Local -->
     <link rel="stylesheet" href="styles.css">
-    
-    <!-- Bibliotecas Client-Side via CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+    <!-- CDN Tesseract v4 (mais estável para browser sem bundler) e PDF.js -->
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
 </head>
-<body>
+<body class="dark-theme">
 
 <div class="container">
     <header>
-        <h1>🔍 Extrator de Texto (OCR)</h1>
-        <p>Extraia texto de PDFs e imagens (PNG, JPG) diretamente no navegador</p>
+        <div class="header-top">
+            <h1>🔍 Extrator de Texto (OCR)</h1>
+            <!-- BOTÃO DE ALTERNÂNCIA DE TEMA MANUALLY -->
+            <button id="theme-toggle" class="btn-theme" title="Alternar Tema">🌙 Escuro</button>
+        </div>
+        <p>Extraia texto de imagens (PNG, JPG) e PDFs diretamente no navegador</p>
         <span class="badge-privacy">🔒 Processamento 100% Local</span>
     </header>
 
@@ -25,35 +28,21 @@
         <p class="drop-text" id="drop-text">Clique aqui ou arraste seu arquivo (PDF, PNG, JPG)</p>
         <input type="file" id="file-input" accept="image/*,application/pdf">
         <p class="file-info" id="file-info"></p>
-    
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESCRIBA HUB - Extrator de Texto (OCR)</title>
-    
-    <!-- CSS Local -->
-    <link rel="stylesheet" href="style.css">
-    
-    <!-- Bibliotecas Client-Side via CDN -->
-    <script src="[https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js](https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js)"></script>
-    <script src="[https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js](https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js)"></script>
-</head>
-<body>
-
-<div class="container">
-    <header>
-        <h1>🔍 Extrator de Texto (OCR)</h1>
-        <p>Extraia texto de PDFs e imagens (PNG, JPG) diretamente no seu navegador</p>
-        <span class="badge-privacy">🔒 Processamento 100% Local</span>
-    </header>
-
-    <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
-        <p class="drop-text" id="drop-text">Clique aqui ou arraste o seu ficheiro (PDF, PNG, JPG)</p>
-        <input type="file" id="file-input" accept="image/*,application/pdf">
-        <p class="file-info" id="file-info"></p>
     </div>
 
     <div class="controls">
-        <button id="process-btn" class="btn" disabled>
+        <button id="process-btn" class="btn" disabled>Extrair Texto</button>
+        <button id="copy-btn" class="btn btn-secondary" disabled>Copiar Texto</button>
+    </div>
+
+    <div class="progress-bar-container" id="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <div class="status-text" id="status-text"></div>
+
+    <textarea id="result-text" placeholder="O texto extraído aparecerá aqui..." readonly></textarea>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

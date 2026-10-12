@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ESCRIBA HUB - Extrator de Texto (OCR)</title>
     
-    <link rel="stylesheet" href="style.css">
+    <!-- Link direto para o arquivo de estilos local -->
+    <link rel="stylesheet" href="./style.css">
 
-    <!-- CDN Tesseract v4 (mais estável para browser sem bundler) e PDF.js -->
-    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
+    <!-- Carregamento síncrono das bibliotecas via CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
 </head>
 <body class="dark-theme">
 
@@ -17,22 +18,21 @@
     <header>
         <div class="header-top">
             <h1>🔍 Extrator de Texto (OCR)</h1>
-            <!-- BOTÃO DE ALTERNÂNCIA DE TEMA MANUALLY -->
-            <button id="theme-toggle" class="btn-theme" title="Alternar Tema">🌙 Escuro</button>
+            <button id="theme-toggle" class="btn-theme" type="button">🌙 Escuro</button>
         </div>
-        <p>Extraia texto de imagens (PNG, JPG) e PDFs diretamente no navegador</p>
+        <p>Extraia texto de imagens (PNG, JPG) e documentos PDF diretamente no seu navegador</p>
         <span class="badge-privacy">🔒 Processamento 100% Local</span>
     </header>
 
-    <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+    <div class="drop-zone" id="drop-zone">
         <p class="drop-text" id="drop-text">Clique aqui ou arraste seu arquivo (PDF, PNG, JPG)</p>
         <input type="file" id="file-input" accept="image/*,application/pdf">
         <p class="file-info" id="file-info"></p>
     </div>
 
     <div class="controls">
-        <button id="process-btn" class="btn" disabled>Extrair Texto</button>
-        <button id="copy-btn" class="btn btn-secondary" disabled>Copiar Texto</button>
+        <button id="process-btn" class="btn" type="button" disabled>Extrair Texto</button>
+        <button id="copy-btn" class="btn btn-secondary" type="button" disabled>Copiar Texto</button>
     </div>
 
     <div class="progress-bar-container" id="progress-container">
@@ -43,6 +43,7 @@
     <textarea id="result-text" placeholder="O texto extraído aparecerá aqui..." readonly></textarea>
 </div>
 
-<script src="app.js"></script>
+<!-- Script principal local -->
+<script src="./app.js"></script>
 </body>
 </html>

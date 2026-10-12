@@ -1,4 +1,4 @@
-/* TEMA CLARO (PADRÃO) */
+/* PALETA DE CORES / VARIÁVEIS */
 :root {
     --bg-color: #f8fafc;
     --card-bg: #ffffff;
@@ -13,20 +13,17 @@
     --radius: 12px;
 }
 
-/* TEMA ESCURO (AUTOMÁTICO) */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --bg-color: #0f172a;
-        --card-bg: #1e293b;
-        --border-color: #334155;
-        --text-primary: #f8fafc;
-        --text-secondary: #94a3b8;
-        --input-bg: #0f172a;
-        --accent-color: #10b981;
-        --accent-hover: #059669;
-        --btn-sec-bg: #334155;
-        --btn-sec-hover: #1e293b;
-    }
+body.dark-theme {
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --border-color: #334155;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --input-bg: #0f172a;
+    --accent-color: #10b981;
+    --accent-hover: #059669;
+    --btn-sec-bg: #334155;
+    --btn-sec-hover: #1e293b;
 }
 
 * {
@@ -43,6 +40,7 @@ body {
     display: flex;
     justify-content: center;
     min-height: 100vh;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .container {
@@ -52,24 +50,46 @@ body {
     border: 1px solid var(--border-color);
     border-radius: var(--radius);
     padding: 24px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
     transition: background-color 0.3s, border-color 0.3s;
 }
 
 header {
-    text-align: center;
     margin-bottom: 20px;
 }
 
-header h1 {
-    font-size: 1.5rem;
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 6px;
+}
+
+header h1 {
+    font-size: 1.4rem;
     color: var(--text-primary);
 }
 
 header p {
     color: var(--text-secondary);
     font-size: 0.85rem;
+}
+
+/* BOTÃO DARK MODE */
+.btn-theme {
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.btn-theme:hover {
+    border-color: var(--accent-color);
 }
 
 .drop-zone {
@@ -177,7 +197,6 @@ textarea {
     font-size: 0.9rem;
     outline: none;
     resize: vertical;
-    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
 }
 
 .badge-privacy {

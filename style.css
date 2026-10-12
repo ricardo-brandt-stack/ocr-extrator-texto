@@ -13,7 +13,7 @@
     --radius: 12px;
 }
 
-/* TEMA ESCURO (CLASSE APLICADA NO BODY) */
+/* TEMA ESCURO */
 body.dark-theme {
     --bg-color: #0f172a;
     --card-bg: #1e293b;

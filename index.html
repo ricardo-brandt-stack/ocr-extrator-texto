@@ -3,217 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESCRIBA HUB - Portal de Utilitários</title>
+    <title>ESCRIBA HUB - Extrator de Texto (OCR)</title>
     
-    <!-- CSS Local -->
+    <!-- CSS apontando exatamente para style.css -->
     <link rel="stylesheet" href="./style.css">
 
-    <!-- Bibliotecas Client-Side para o OCR -->
+    <!-- Carregamento síncrono das bibliotecas via CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.1/dist/tesseract.min.js"></script>
 </head>
 <body class="dark-theme">
 
-    <!-- BARRA SUPERIOR DE NAVEGAÇÃO DO PORTAL -->
-    <nav class="hub-navbar">
-        <div class="hub-brand" onclick="switchTab('tab-home', event)">⚡ ESCRIBA HUB</div>
-        <div class="nav-tabs">
-            <button class="tab-btn active" onclick="switchTab('tab-home', event)">🏠 Painel HUB</button>
-            <button class="tab-btn" onclick="switchTab('tab-oficios', event)">📝 Gerador de Ofícios</button>
-            <button class="tab-btn" onclick="switchTab('tab-ocr', event)">🔍 Extrator de Texto (OCR)</button>
+<div class="container">
+    <header>
+        <div class="header-top">
+            <h1>🔍 Extrator de Texto (OCR)</h1>
+            <button id="theme-toggle" class="btn-theme" type="button">🌙 Escuro</button>
         </div>
-        <button id="theme-toggle" class="btn-theme" type="button">🌙 Escuro</button>
-    </nav>
+        <p>Extraia texto de imagens (PNG, JPG) e documentos PDF diretamente no seu navegador</p>
+        <span class="badge-privacy">🔒 Processamento 100% Local</span>
+    </header>
 
-    <!-- ABA 1: HOME / PAINEL PRINCIPAL DE FERRAMENTAS -->
-    <div id="tab-home" class="tab-content active">
-        <div class="hub-container">
-            <header class="hub-header">
-                <h1>ESCRIBA HUB</h1>
-                <p>Plataforma Privada de Tratamento de Documentos & Mídia</p>
-                <div class="privacy-badge">
-                    <span>🛡️</span> Processamento 100% Client-Side — Zero Dados no Servidor
-                </div>
-            </header>
-
-            <div class="tools-grid">
-                <!-- 1. ANONIMIZADOR LGPD -->
-                <a href="https://ricardo-brandt-stack.github.io/anonimizador/" target="_blank" class="tool-card" style="--card-color: var(--accent-green);">
-                    <div>
-                        <div class="card-top">
-                            <div class="card-icon">🛡️</div>
-                            <div class="card-title-group">
-                                <span class="card-tag">Segurança</span>
-                                <h2>Anonimizador LGPD</h2>
-                            </div>
-                        </div>
-                        <p class="card-desc">Oculte automaticamente CPFs, telefones, e-mails, endereços, nomes próprios e dados sensíveis de forma local.</p>
-                    </div>
-                    <div class="card-footer">
-                        <span>Abrir ferramenta</span>
-                        <span class="external-icon">↗</span>
-                    </div>
-                </a>
-
-                <!-- 2. EXTRATOR DE TEXTO (OCR) -->
-                <a href="#" onclick="switchTab('tab-ocr', event); return false;" class="tool-card" style="--card-color: var(--accent-emerald);">
-                    <div>
-                        <div class="card-top">
-                            <div class="card-icon">🔍</div>
-                            <div class="card-title-group">
-                                <span class="card-tag">Produtividade</span>
-                                <h2>Extrator de Texto (OCR)</h2>
-                            </div>
-                        </div>
-                        <p class="card-desc">Extraia e converta texto legível de fotos, imagens (PNG/JPG) e PDFs digitalizados diretamente no seu navegador.</p>
-                    </div>
-                    <div class="card-footer">
-                        <span>Abrir no HUB</span>
-                        <span class="external-icon">→</span>
-                    </div>
-                </a>
-
-                <!-- 3. GERADOR DE OFÍCIOS (ABNT) -->
-                <a href="#" onclick="switchTab('tab-oficios', event); return false;" class="tool-card" style="--card-color: var(--accent-blue);">
-                    <div>
-                        <div class="card-top">
-                            <div class="card-icon">📝</div>
-                            <div class="card-title-group">
-                                <span class="card-tag">Documentos</span>
-                                <h2>Gerador de Ofícios (ABNT)</h2>
-                            </div>
-                        </div>
-                        <p class="card-desc">Padronize expedição de ofícios oficiais em folha A4 conforme normas da ABNT/Redação Oficial em tempo real.</p>
-                    </div>
-                    <div class="card-footer">
-                        <span>Abrir no HUB</span>
-                        <span class="external-icon">→</span>
-                    </div>
-                </a>
-
-                <!-- 4. JUNTADOR DE PDF -->
-                <a href="https://ricardo-brandt-stack.github.io/juntador_pdf/" target="_blank" class="tool-card" style="--card-color: var(--accent-indigo);">
-                    <div>
-                        <div class="card-top">
-                            <div class="card-icon">📚</div>
-                            <div class="card-title-group">
-                                <span class="card-tag">Documentos</span>
-                                <h2>Juntador de PDF</h2>
-                            </div>
-                        </div>
-                        <p class="card-desc">Combine múltiplos arquivos PDF em um único documento organizado de forma rápida e segura no seu navegador.</p>
-                    </div>
-                    <div class="card-footer">
-                        <span>Abrir ferramenta</span>
-                        <span class="external-icon">↗</span>
-                    </div>
-                </a>
-
-                <!-- 5. DIVISOR DE PDF -->
-                <a href="https://ricardo-brandt-stack.github.io/divisor-pdf/" target="_blank" class="tool-card" style="--card-color: var(--accent-blue);">
-                    <div>
-                        <div class="card-top">
-                            <div class="card-icon">✂️</div>
-                            <div class="card-title-group">
-                                <span class="card-tag">Documentos</span>
-                                <h2>Divisor de PDF (11 MB)</h2>
-                            </div>
-                        </div>
-                        <p class="card-desc">Divida PDFs volumosos em partes de até 11 MB com numeração e nomenclatura automática para envio fácil.</p>
-                    </div>
-                    <div class="card-footer">
-                        <span>Abrir ferramenta</span>
-                        <span class="external-icon">↗</span>
-                    </div>
-                </a>
-
-                <!-- 6. NUMERADOR DE PDF -->
-                <a href="https://ricardo-brandt-stack.github.io/numerador-paginas/" target="_blank" class="tool-card" style="--card-color: var(--accent-blue);">
-                    <div>
-                        <div class="card-top">
-                            <div class="card-icon">🔢</div>
-                            <div class="card-title-group">
-                                <span class="card-tag">Documentos</span>
-                                <h2>Numerador de PDF</h2>
-                            </div>
-                        </div>
-                        <p class="card-desc">Insira numeração personalizada ("Página X de Y", cabeçalho/rodapé) com controle total de margens e fontes.</p>
-                    </div>
-                    <div class="card-footer">
-                        <span>Abrir ferramenta</span>
-                        <span class="external-icon">↗</span>
-                    </div>
-                </a>
-
-                <!-- 7. CONVERSOR DE ÁUDIO -->
-                <a href="https://ricardo-brandt-stack.github.io/conversor-audio/" target="_blank" class="tool-card" style="--card-color: var(--accent-pink);">
-                    <div>
-                        <div class="card-top">
-                            <div class="card-icon">🎧</div>
-                            <div class="card-title-group">
-                                <span class="card-tag">Mídia</span>
-                                <h2>Conversor de Áudio</h2>
-                            </div>
-                        </div>
-                        <p class="card-desc">Converta arquivos de áudio entre múltiplos formatos (MP3, WAV, OGG, AAC) sem perda de qualidade.</p>
-                    </div>
-                    <div class="card-footer">
-                        <span>Abrir ferramenta</span>
-                        <span class="external-icon">↗</span>
-                    </div>
-                </a>
-
-                <!-- 8. CONVERSOR DE VÍDEO -->
-                <a href="https://ricardo-brandt-stack.github.io/conversor-video/" target="_blank" class="tool-card" style="--card-color: var(--accent-purple);">
-                    <div>
-                        <div class="card-top">
-                            <div class="card-icon">🎬</div>
-                            <div class="card-title-group">
-                                <span class="card-tag">Mídia</span>
-                                <h2>Conversor de Vídeo</h2>
-                            </div>
-                        </div>
-                        <p class="card-desc">Converta vídeos para MP4/WebM ou extraia faixas de áudio diretamente na memória do seu dispositivo.</p>
-                    </div>
-                    <div class="card-footer">
-                        <span>Abrir ferramenta</span>
-                        <span class="external-icon">↗</span>
-                    </div>
-                </a>
-
-                <!-- 9. DIVISOR DE VÍDEO -->
-                <a href="https://ricardo-brandt-stack.github.io/divisor-video/" target="_blank" class="tool-card" style="--card-color: var(--accent-cyan);">
-                    <div>
-                        <div class="card-top">
-                            <div class="card-icon">📹</div>
-                            <div class="card-title-group">
-                                <span class="card-tag">Mídia</span>
-                                <h2>Divisor de Vídeo (249 MB)</h2>
-                            </div>
-                        </div>
-                        <p class="card-desc">Fatie vídeos pesados em partes de no máximo 249 MB via WebAssembly ultra-rápido sem re-codificação.</p>
-                    </div>
-                    <div class="card-footer">
-                        <span>Abrir ferramenta</span>
-                        <span class="external-icon">↗</span>
-                    </div>
-                </a>
-            </div>
-        </div>
+    <div class="drop-zone" id="drop-zone">
+        <p class="drop-text" id="drop-text">Clique aqui ou arraste seu arquivo (PDF, PNG, JPG)</p>
+        <input type="file" id="file-input" accept="image/*,application/pdf">
+        <p class="file-info" id="file-info"></p>
     </div>
 
-    <!-- ABA 2: GERADOR DE OFÍCIOS (ABNT) -->
-    <div id="tab-oficios" class="tab-content">
-        <div class="app-layout">
-            <aside class="form-panel">
-                <h2>Gerador de Ofícios</h2>
-                <p class="subtitle">Preencha os campos para gerar o documento oficial alinhado às normas ABNT.</p>
-                
-                <form id="officio-form">
-                    <fieldset>
-                        <legend>Cabeçalho & Órgão</legend>
-                        <label>Logo / Brasão</label>
-                        <input type="file" id="input-logo" accept="image/*">
+    <div class="controls">
+        <button id="process-btn" class="btn" type="button" disabled>Extrair Texto</button>
+        <button id="copy-btn" class="btn btn-secondary" type="button" disabled>Copiar Texto</button>
+    </div>
 
-                        <label>Linha 1 (Ente Superior)</label>
-                        <input type="text" id="input-line1" value="ESTADO DE SANTA CATARINA">
+    <div class="progress-bar-container" id="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <div class="status-text" id="status-text"></div>
+
+    <textarea id="result-text" placeholder="O texto extraído aparecerá aqui..." readonly></textarea>
+</div>
+
+<!-- JS apontando exatamente para script.js -->
+<script src="./script.js"></script>
+</body>
+</html>

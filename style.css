@@ -1,12 +1,32 @@
+/* TEMA CLARO (PADRÃO) */
 :root {
-    --bg-color: #0f172a;
-    --card-bg: #1e293b;
-    --border-color: #334155;
-    --text-primary: #f8fafc;
-    --text-secondary: #94a3b8;
+    --bg-color: #f8fafc;
+    --card-bg: #ffffff;
+    --border-color: #cbd5e1;
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+    --input-bg: #f1f5f9;
     --accent-color: #059669;
     --accent-hover: #047857;
+    --btn-sec-bg: #475569;
+    --btn-sec-hover: #334155;
     --radius: 12px;
+}
+
+/* TEMA ESCURO (AUTOMÁTICO) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #0f172a;
+        --card-bg: #1e293b;
+        --border-color: #334155;
+        --text-primary: #f8fafc;
+        --text-secondary: #94a3b8;
+        --input-bg: #0f172a;
+        --accent-color: #10b981;
+        --accent-hover: #059669;
+        --btn-sec-bg: #334155;
+        --btn-sec-hover: #1e293b;
+    }
 }
 
 * {
@@ -31,18 +51,20 @@ body {
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
     border-radius: var(--radius);
-    padding: 30px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    padding: 24px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
 header {
     text-align: center;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 header h1 {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     margin-bottom: 6px;
+    color: var(--text-primary);
 }
 
 header p {
@@ -53,35 +75,40 @@ header p {
 .drop-zone {
     border: 2px dashed var(--border-color);
     border-radius: var(--radius);
-    padding: 30px;
+    padding: 25px;
     text-align: center;
     cursor: pointer;
     transition: border-color 0.2s, background 0.2s;
-    background-color: rgba(15, 23, 42, 0.4);
-    margin-bottom: 20px;
+    background-color: var(--input-bg);
+    margin-bottom: 16px;
 }
 
 .drop-zone:hover {
     border-color: var(--accent-color);
-    background-color: rgba(5, 150, 105, 0.05);
+    background-color: rgba(16, 185, 129, 0.05);
 }
 
 .drop-zone input {
     display: none;
 }
 
-.preview-img {
-    max-width: 100%;
-    max-height: 250px;
-    margin-top: 15px;
-    border-radius: 8px;
+.drop-text {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.file-info {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    margin-top: 10px;
     display: none;
 }
 
 .controls {
     display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
+    gap: 12px;
+    margin-bottom: 16px;
 }
 
 .btn {
@@ -93,7 +120,7 @@ header p {
     font-weight: 600;
     cursor: pointer;
     background-color: var(--accent-color);
-    color: white;
+    color: #ffffff;
     transition: background 0.2s;
 }
 
@@ -102,13 +129,17 @@ header p {
 }
 
 .btn-secondary {
-    background-color: #334155;
+    background-color: var(--btn-sec-bg);
+    color: #ffffff;
+}
+
+.btn-secondary:hover {
+    background-color: var(--btn-sec-hover);
 }
 
 .btn:disabled {
-    background-color: var(--border-color);
+    opacity: 0.5;
     cursor: not-allowed;
-    color: var(--text-secondary);
 }
 
 .progress-bar-container {
@@ -117,7 +148,7 @@ header p {
     height: 8px;
     border-radius: 4px;
     overflow: hidden;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     display: none;
 }
 
@@ -131,14 +162,14 @@ header p {
 .status-text {
     font-size: 0.8rem;
     color: var(--text-secondary);
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     text-align: center;
 }
 
 textarea {
     width: 100%;
-    height: 200px;
-    background-color: var(--bg-color);
+    height: 220px;
+    background-color: var(--input-bg);
     border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 12px;
@@ -146,6 +177,7 @@ textarea {
     font-size: 0.9rem;
     outline: none;
     resize: vertical;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
 }
 
 .badge-privacy {
@@ -156,4 +188,5 @@ textarea {
     border-radius: 12px;
     font-size: 0.75rem;
     margin-top: 8px;
+    font-weight: 600;
 }

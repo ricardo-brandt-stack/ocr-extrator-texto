@@ -1,5 +1,5 @@
-// Configuração da worker do PDF.js
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+// Configuração segura do PDF.js Worker
+pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
 
 const fileInput = document.getElementById('file-input');
 const dropZone = document.getElementById('drop-zone');
@@ -11,10 +11,18 @@ const progressBar = document.getElementById('progress-bar');
 const progressContainer = document.getElementById('progress-container');
 const statusText = document.getElementById('status-text');
 const resultText = document.getElementById('result-text');
+const themeToggleBtn = document.getElementById('theme-toggle');
 
 let selectedFile = null;
 
-// Manipulação de Arquivo / Drag & Drop
+// GESTÃO DO MODO ESCURO / CLARO
+themeToggleBtn.addEventListener('click', () => {
+    document.body.classList.toggle('dark-theme');
+    const isDark = document.body.classList.contains('dark-theme');
+    themeToggleBtn.innerText = isDark ? '🌙 Escuro' : '☀️ Claro';
+});
+
+// ARQUIVOS & DRAG AND DROP
 fileInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
 
 dropZone.addEventListener('dragover', (e) => {
@@ -42,64 +50,78 @@ function handleFile(file) {
         dropText.style.display = 'none';
         processBtn.disabled = false;
     } else {
-        alert('Por favor, selecione uma imagem (PNG/JPG) ou um arquivo PDF válido.');
+        alert('Selecione uma imagem válida (PNG/JPG) ou um arquivo PDF.');
     }
 }
 
-// Processamento OCR
+// EXECUÇÃO DO OCR
 processBtn.addEventListener('click', async () => {
     if (!selectedFile) return;
 
     processBtn.disabled = true;
     progressContainer.style.display = 'block';
-    statusText.innerText = 'Iniciando motor OCR...';
+    statusText.innerText = 'Inicializando motor de leitura...';
     progressBar.style.width = '5%';
     resultText.value = '';
 
     try {
-        const worker = await Tesseract.createWorker('por');
-
         if (selectedFile.type === 'application/pdf') {
-            await processPDF(selectedFile, worker);
+            await processPDF(selectedFile);
         } else {
-            await processImage(selectedFile, worker);
+            await processImage(selectedFile);
         }
 
-        statusText.innerText = 'Extração concluída com sucesso!';
+        statusText.innerText = 'Concluído com sucesso!';
         copyBtn.disabled = false;
-        await worker.terminate();
     } catch (error) {
         console.error(error);
-        statusText.innerText = 'Ocorreu um erro ao processar o arquivo.';
+        statusText.innerText = 'Erro ao processar o arquivo. Verifique o console.';
     } finally {
         processBtn.disabled = false;
     }
 });
 
-async function processImage(file, worker) {
-    worker.logger = (m) => {
-        if (m.status === 'recognizing text') {
-            const prog = Math.round(m.progress * 100);
-            statusText.innerText = `Lendo imagem: ${prog}%`;
-            progressBar.style.width = `${prog}%`;
+// PROCESSAR IMAGEM
+async function processImage(file) {
+    const worker = await Tesseract.createWorker({
+        logger: m => {
+            if (m.status === 'recognizing text') {
+                const prog = Math.round(m.progress * 100);
+                statusText.innerText = `Lendo imagem: ${prog}%`;
+                progressBar.style.width = `${prog}%`;
+            } else if (m.status) {
+                statusText.innerText = m.status;
+            }
         }
-    };
+    });
+
+    await worker.load();
+    await worker.loadLanguage('por');
+    await worker.initialize('por');
+
     const res = await worker.recognize(file);
     resultText.value = res.data.text;
+    await worker.terminate();
 }
 
-async function processPDF(file, worker) {
+// PROCESSAR PDF
+async function processPDF(file) {
     const arrayBuffer = await file.arrayBuffer();
     const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
     const totalPages = pdf.numPages;
     let fullText = '';
+
+    const worker = await Tesseract.createWorker();
+    await worker.load();
+    await worker.loadLanguage('por');
+    await worker.initialize('por');
 
     for (let i = 1; i <= totalPages; i++) {
         statusText.innerText = `Processando página ${i} de ${totalPages}...`;
         progressBar.style.width = `${Math.round((i / totalPages) * 100)}%`;
 
         const page = await pdf.getPage(i);
-        const viewport = page.getViewport({ scale: 2.0 });
+        const viewport = page.getViewport({ scale: 1.5 });
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
         canvas.height = viewport.height;
@@ -112,10 +134,11 @@ async function processPDF(file, worker) {
     }
 
     resultText.value = fullText;
+    await worker.terminate();
 }
 
-// Copiar Texto
+// COPIAR TEXTO
 copyBtn.addEventListener('click', () => {
     navigator.clipboard.writeText(resultText.value);
-    alert('Texto copiado com sucesso!');
+    alert('Texto copiado para a área de transferência!');
 });

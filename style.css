@@ -1,4 +1,4 @@
-/* PALETA DE CORES / VARIÁVEIS */
+/* TEMA CLARO */
 :root {
     --bg-color: #f8fafc;
     --card-bg: #ffffff;
@@ -13,6 +13,7 @@
     --radius: 12px;
 }
 
+/* TEMA ESCURO (CLASSE APLICADA NO BODY) */
 body.dark-theme {
     --bg-color: #0f172a;
     --card-bg: #1e293b;
@@ -34,11 +35,12 @@ body.dark-theme {
 }
 
 body {
-    background-color: var(--bg-color);
-    color: var(--text-primary);
+    background-color: var(--bg-color) !important;
+    color: var(--text-primary) !important;
     padding: 20px;
     display: flex;
     justify-content: center;
+    align-items: flex-start;
     min-height: 100vh;
     transition: background-color 0.3s, color 0.3s;
 }
@@ -50,7 +52,7 @@ body {
     border: 1px solid var(--border-color);
     border-radius: var(--radius);
     padding: 24px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
     transition: background-color 0.3s, border-color 0.3s;
 }
 
@@ -62,7 +64,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
 }
 
 header h1 {
@@ -75,15 +77,14 @@ header p {
     font-size: 0.85rem;
 }
 
-/* BOTÃO DARK MODE */
 .btn-theme {
     background: var(--input-bg);
     border: 1px solid var(--border-color);
     color: var(--text-primary);
-    padding: 6px 12px;
+    padding: 6px 14px;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 600;
     transition: all 0.2s;
 }
@@ -95,10 +96,10 @@ header p {
 .drop-zone {
     border: 2px dashed var(--border-color);
     border-radius: var(--radius);
-    padding: 25px;
+    padding: 30px 20px;
     text-align: center;
     cursor: pointer;
-    transition: border-color 0.2s, background 0.2s;
+    transition: border-color 0.2s, background-color 0.2s;
     background-color: var(--input-bg);
     margin-bottom: 16px;
 }
@@ -108,21 +109,23 @@ header p {
     background-color: rgba(16, 185, 129, 0.05);
 }
 
-.drop-zone input {
+.drop-zone input[type="file"] {
     display: none;
 }
 
 .drop-text {
     color: var(--text-secondary);
     font-size: 0.9rem;
+    pointer-events: none;
 }
 
 .file-info {
     font-size: 0.9rem;
     font-weight: 600;
     color: var(--accent-color);
-    margin-top: 10px;
+    margin-top: 8px;
     display: none;
+    pointer-events: none;
 }
 
 .controls {
@@ -141,10 +144,10 @@ header p {
     cursor: pointer;
     background-color: var(--accent-color);
     color: #ffffff;
-    transition: background 0.2s;
+    transition: background-color 0.2s, opacity 0.2s;
 }
 
-.btn:hover {
+.btn:hover:not(:disabled) {
     background-color: var(--accent-hover);
 }
 
@@ -153,12 +156,12 @@ header p {
     color: #ffffff;
 }
 
-.btn-secondary:hover {
+.btn-secondary:hover:not(:disabled) {
     background-color: var(--btn-sec-hover);
 }
 
 .btn:disabled {
-    opacity: 0.5;
+    opacity: 0.4;
     cursor: not-allowed;
 }
 
@@ -180,10 +183,11 @@ header p {
 }
 
 .status-text {
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: var(--text-secondary);
     margin-bottom: 12px;
     text-align: center;
+    min-height: 1.2em;
 }
 
 textarea {
@@ -197,6 +201,7 @@ textarea {
     font-size: 0.9rem;
     outline: none;
     resize: vertical;
+    transition: background-color 0.3s, border-color 0.3s, color 0.3s;
 }
 
 .badge-privacy {
